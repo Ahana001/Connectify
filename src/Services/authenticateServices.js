@@ -15,11 +15,23 @@ export async function signupRequest(username, password, city) {
 }
 export async function followUserRequest(userId, token) {
   return await axios.post(
-    `/api/user/follow/${userId}`,
+    `/api/users/follow/${userId}`,
     {},
     {
       headers: {
-        authorization: `Bearer ${token}`,
+        authorization: token,
+      },
+    }
+  );
+}
+
+export async function UnFollowUserRequest(userId, token) {
+  return await axios.post(
+    `/api/users/unfollow/${userId}`,
+    {},
+    {
+      headers: {
+        authorization: token,
       },
     }
   );

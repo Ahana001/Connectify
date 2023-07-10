@@ -26,6 +26,7 @@ const initialState = {
 
 export const getAllPost = createAsyncThunk(
   "post/getAllPost",
+  // eslint-disable-next-line
   async (undefined, { rejectWithValue }) => {
     try {
       const getAllPostResponse = await getAllPostRequest();

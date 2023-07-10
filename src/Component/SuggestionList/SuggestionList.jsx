@@ -11,7 +11,7 @@ export function SuggestionList() {
     (state) => state.authentication
   );
 
-  if (location.pathname === "/profile") {
+  if (location.pathname.includes("/profile")) {
     return null;
   }
   const getOnlyFirstSevenSuggestions = getSuggestionListData.slice(0, 7);

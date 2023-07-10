@@ -7,7 +7,6 @@ import {
   AiOutlineCompass,
   AiFillHeart,
   AiOutlineHeart,
-  AiOutlineLogout,
 } from "react-icons/ai";
 import {
   BsBookmarksFill,
@@ -20,9 +19,7 @@ import { RiUser3Line, RiUser3Fill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useLocation } from "react-router-dom";
 import { setToggleModel } from "../../../../Store/displaySlice";
-import { AvtarWithBorder } from "../../../AvtarWithBorder/AvtarWithBorder";
 import { setLogoutToggle } from "../../../../Store/displaySlice";
-import { logoutHandler } from "../../../../Store/authenticationSlice";
 
 export function MenuBar() {
   const location = useLocation();
@@ -56,7 +53,7 @@ export function MenuBar() {
       icon: <AiOutlineHeart />,
     },
     {
-      path: "/profile",
+      path: `/profile/${authUser.username}`,
       label: "Profile",
       selectedIcon: <RiUser3Fill />,
       icon: <RiUser3Line />,
@@ -114,28 +111,24 @@ export function MenuBar() {
       >
         <div className="UserInfo">
           <div>
-            <AvtarWithBorder url={authUser.image} />
+            <div
+              className="UserAvtar"
+              style={{ minHeight: "3.6rem", minWidth: "3.6rem" }}
+            >
+              <div className="UserAvtarImageContainer">
+                <img
+                  src={authUser.image ?? "../asserts/user.png"}
+                  alt="avtar"
+                  style={{ minHeight: "3.2rem", minWidth: "3.2rem" }}
+                />
+              </div>
+            </div>
             <div className="UserNameStack">
               <span>{authUser.username}</span>
               <span>@{authUser.username}</span>
             </div>
           </div>
           <SlOptions className="UserInfoOptionBarIcon" />
-          <div
-            className="LogOutContainer"
-            style={{ display: logoutToggle ? "flex" : "none" }}
-          >
-            <ul>
-              <li
-                onClick={async (e) => {
-                  e.stopPropagation();
-                  dispatch(logoutHandler());
-                }}
-              >
-                <AiOutlineLogout className="LogOutIcon" /> <span>Log Out</span>
-              </li>
-            </ul>
-          </div>
         </div>
       </div>
     </div>

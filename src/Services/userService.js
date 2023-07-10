@@ -9,10 +9,21 @@ export async function getSuggestionListRequest(token) {
 }
 
 export async function getUserRequest() {
-  console.log(localStorage.getItem("authToken"));
   return await axios.get("/api/user", {
     headers: {
       authorization: localStorage.getItem("authToken"),
+    },
+  });
+}
+
+export async function getAllUsersRequest(token) {
+  return await axios.get("/api/users");
+}
+
+export async function editUserRequest(data, token) {
+  return await axios.post(`/api/user/edit`, data, {
+    headers: {
+      authorization: token,
     },
   });
 }

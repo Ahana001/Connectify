@@ -19,13 +19,18 @@ import {
   setPostData,
   unBookmarkPost,
 } from "../../Store/postSlice";
+import { Link } from "react-router-dom";
 
 export function PostCard({ post }) {
   const dispatch = useDispatch();
   const { editBoxVisibility } = useSelector((state) => state.display);
-  const { authToken, authUser } = useSelector((state) => state.authentication);
+  const { authToken, authUser, getAllUsersData } = useSelector(
+    (state) => state.authentication
+  );
   const currentDate = new Date();
-
+  const findPostAuthor = getAllUsersData.find(
+    (user) => user.username === post.author_username
+  );
   function getHumanizeTimeForOlderPost(date) {
     const pastDate = new Date(date);
     const timeDifference = currentDate - pastDate;
@@ -58,10 +63,14 @@ export function PostCard({ post }) {
   )
     ? true
     : false;
-
+  if (!findPostAuthor) {
+    return null;
+  }
   return (
     <div className="PostCardContainer">
-      <AvtarWithBorder url={authUser.image} />
+      <Link to={`/profile/${findPostAuthor.username}`}>
+        <AvtarWithBorder url={findPostAuthor.image} />
+      </Link>
 
       <div className="PostBody">
         <div className="PostHeader">

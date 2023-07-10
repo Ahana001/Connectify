@@ -21,7 +21,7 @@ export function SuggestionCard({ user }) {
 
       {user.followUserStatus === "pending" ? (
         <SmallLoader />
-      ) : user.followUserStatus === "fulfilled" ? (
+      ) : user.followUserStatus === "idle" ? (
         <div className="FollowedUser">Following</div>
       ) : (
         <button

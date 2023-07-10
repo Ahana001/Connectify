@@ -6,6 +6,8 @@
   width: 12rem;
   border-radius: 50%;
   border: 0.1rem solid var(--line-color);
+  overflow: hidden;
+  cursor: pointer;
 }
 .AvtarContainer img {
   height: 100%;

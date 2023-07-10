@@ -1,11 +1,16 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
+  UnFollowUserRequest,
   followUserRequest,
   loginRequest,
   signupRequest,
 } from "../Services/authenticateServices";
 import { CustomizeToast } from "../Utils/CustomizeToast";
-import { getSuggestionListRequest } from "../Services/userService";
+import {
+  editUserRequest,
+  getAllUsersRequest,
+  getSuggestionListRequest,
+} from "../Services/userService";
 
 const initialState = {
   // getUserError: null,
@@ -17,6 +22,13 @@ const initialState = {
   getSuggestionListData: [],
   getSuggestionListStatus: "idle",
   getSuggestionListError: null,
+  getAllUsersData: [],
+  profileData: {
+    id: null,
+    image: null,
+    bio: "",
+    profile_link: "",
+  },
 };
 // export const getUser = createAsyncThunk(
 //   "get/getUser",
@@ -38,6 +50,31 @@ export const getSuggestionList = createAsyncThunk(
     try {
       const getSuggestionListResponse = await getSuggestionListRequest(token);
       return getSuggestionListResponse.data;
+    } catch (error) {
+      console.error(error.response.data);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+export const getAllUsers = createAsyncThunk(
+  "get/getAllUsers",
+  // eslint-disable-next-line
+  async (undefined, { rejectWithValue }) => {
+    try {
+      const getAllUsersResponse = await getAllUsersRequest();
+      return getAllUsersResponse.data;
+    } catch (error) {
+      console.error(error.response.data);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+export const editUser = createAsyncThunk(
+  "authenticate/editUser",
+  async ({ data, token }, { rejectWithValue }) => {
+    try {
+      const editUserResponse = await editUserRequest(data, token);
+      return editUserResponse.data;
     } catch (error) {
       console.error(error.response.data);
       return rejectWithValue(error.response.data);
@@ -80,7 +117,18 @@ export const followUser = createAsyncThunk(
     }
   }
 );
-
+export const unfollowUser = createAsyncThunk(
+  "authenticate/unfollowUser",
+  async ({ userId, token }, { rejectWithValue }) => {
+    try {
+      const unfollowUserResponse = await UnFollowUserRequest(userId, token);
+      return unfollowUserResponse.data;
+    } catch (error) {
+      console.error(error.response.data);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 const authenticationSlice = createSlice({
   name: "authentication",
   initialState,
@@ -90,6 +138,9 @@ const authenticationSlice = createSlice({
       localStorage.removeItem("authUser");
       state.authToken = null;
       state.authUser = {};
+    },
+    setProfileData: (state, action) => {
+      state.profileData = action.payload;
     },
   },
   extraReducers: {
@@ -105,6 +156,23 @@ const authenticationSlice = createSlice({
     //   state.getUserStatus = "error";
     //   state.getUserError = action.payload.errors[0];
     // },
+    [getAllUsers.pending]: (state) => {},
+    [getAllUsers.fulfilled]: (state, action) => {
+      state.getAllUsersData = action.payload.users;
+    },
+    [getAllUsers.rejected]: (state, action) => {
+      CustomizeToast("error", action.payload.errors[0]);
+    },
+    [editUser.pending]: (state) => {},
+    [editUser.fulfilled]: (state, action) => {
+      state.authUser = action.payload.user;
+      state.getAllUsersData = action.payload.users;
+      localStorage.setItem("authUser", JSON.stringify(action.payload.user));
+      CustomizeToast("success", "Profile Updated Successfully");
+    },
+    [editUser.rejected]: (state, action) => {
+      CustomizeToast("error", action.payload.errors[0]);
+    },
     [loginUser.pending]: (state) => {
       state.authStatus = "pending";
     },
@@ -163,16 +231,36 @@ const authenticationSlice = createSlice({
       state.getSuggestionListData = state.getSuggestionListData.map((user) =>
         user.id === userId ? { ...user, followUserStatus: "pending" } : user
       );
+      state.getAllUsersData = state.getAllUsersData.map((user) =>
+        user.id === userId ? { ...user, followUserStatus: "pending" } : user
+      );
     },
     [followUser.fulfilled]: (state, action) => {
+      const authUser = JSON.parse(localStorage.getItem("authUser"));
       const { userId } = action.meta.arg;
+
       state.getSuggestionListData = state.getSuggestionListData.map((user) =>
         user.id === userId
           ? {
               ...user,
-              followUserStatus: "fulfilled",
+              followUserStatus: "idle",
             }
           : user
+      );
+      state.getAllUsersData = action.payload.users.map((user) => {
+        if (user.id === userId) {
+          return {
+            ...action.payload.followUser,
+            followUserStatus: "idle",
+          };
+        } else if (user.id === authUser.id) {
+          return action.payload.user;
+        } else {
+          return user;
+        }
+      });
+      state.authUser = action.payload.users.find(
+        (user) => user.id === authUser.id
       );
       CustomizeToast("success", `Followed Successfully`);
     },
@@ -181,10 +269,43 @@ const authenticationSlice = createSlice({
         ...user,
         followUserStatus: "idle",
       }));
+      state.getAllUsersData = state.getAllUsersData.map((user) => ({
+        ...user,
+        followUserStatus: "idle",
+      }));
+      CustomizeToast("error", action.payload.errors[0].message);
+    },
+    [unfollowUser.pending]: (state, action) => {
+      const { userId } = action.meta.arg;
+      state.getAllUsersData = state.getAllUsersData.map((user) =>
+        user.id === userId ? { ...user, followUserStatus: "pending" } : user
+      );
+    },
+    [unfollowUser.fulfilled]: (state, action) => {
+      const authUser = JSON.parse(localStorage.getItem("authUser"));
+      const { userId } = action.meta.arg;
+      state.getAllUsersData = action.payload.users.map((user) =>
+        user.id === userId
+          ? {
+              ...user,
+              followUserStatus: "idle",
+            }
+          : user
+      );
+      state.authUser = action.payload.users.find(
+        (user) => user.id === authUser.id
+      );
+      CustomizeToast("success", `UnFollowed Successfully`);
+    },
+    [unfollowUser.rejected]: (state, action) => {
+      state.getAllUsersData = state.getAllUsersData.map((user) => ({
+        ...user,
+        followUserStatus: "idle",
+      }));
       CustomizeToast("error", action.payload.errors[0].message);
     },
   },
 });
 
-export const { logoutHandler } = authenticationSlice.actions;
+export const { logoutHandler, setProfileData } = authenticationSlice.actions;
 export const authenticationReducer = authenticationSlice.reducer;

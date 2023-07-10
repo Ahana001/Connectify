@@ -24,6 +24,7 @@ import {
   editUserHandler,
   getSuggestionListUsersHandler,
   getUserHandler,
+  getAllUserHandler,
 } from "./backend/controllers/UserController";
 
 export function makeServer({ environment = "development" } = {}) {
@@ -81,9 +82,12 @@ export function makeServer({ environment = "development" } = {}) {
         removePostFromBookmarkHandler.bind(this)
       );
 
+      // user routes (public)
+      this.get("/users", getAllUserHandler.bind(this));
+
       // user routes (private)
       this.get("/user", getUserHandler.bind(this));
-      this.post("/users/edit", editUserHandler.bind(this));
+      this.post("/user/edit/", editUserHandler.bind(this));
       this.get(
         "/users/suggestionList",
         getSuggestionListUsersHandler.bind(this)

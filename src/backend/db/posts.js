@@ -25,7 +25,7 @@ export const posts = [
       "https://res.cloudinary.com/dcu6sympq/image/upload/v1688795309/socially/marble-cookies-recipe1221FOO-bd49c4f746244480a79186666767a006_dynasg.webp",
     content:
       "These stunning marbled cookies are easier to make than you might think. All that's needed to achieve the look is to separate part of the dough and add just a few drops of food coloring gel. Then, a simple stacking technique and some kneading results in a rich cookie dough that's marbled with color throughout. Freezing the cookies before baking is key to avoid spreading, so be patient. If you'd like, have fun with different colors of sanding sugar for the sparkle element or experiment with other colors for the marbled look.",
-    author_username: "shubhamsoni",
+    author_username: "Raj",
     createdAt: before30MinDate(),
     updatedAt: before30MinDate(),
   },

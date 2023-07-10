@@ -39,10 +39,9 @@
   justify-content: center;
 }
 .UserProfileContainer {
-  margin-left: 0.8rem;
+  /* margin-left: 0.8rem; */
   padding: 1rem;
   cursor: pointer;
-  position: relative;
 }
 
 .UserInfo,
@@ -65,7 +64,8 @@
 .LogOutContainer {
   position: absolute;
   border-radius: 0.36rem;
-  bottom: 6rem;
+  top: 60rem;
+  left: 1rem;
   font-size: 1.4rem;
   border-radius: 0.5rem;
   border: 0.1rem solid var(--line-color);
@@ -104,6 +104,12 @@
     background-color: var(--hover-color);
   }
 }
+@media (max-width: 1280px) {
+  .UserInfoOptionBarIcon {
+    display: none;
+  }
+}
+
 @media (max-width: 980px) {
   .MenuBarListItem span:last-of-type {
     display: none;
@@ -111,10 +117,29 @@
   .MenuBarIcon {
     font-size: 2.6rem;
   }
-
   .MenuBarList {
     align-items: center;
     margin-left: 0rem;
     padding: 0rem;
+  }
+  .UserNameStack {
+    display: none;
+  }
+}
+@media (max-width: 880px) {
+  .UserProfileContainer {
+    margin-left: 0rem;
+    padding-right: 0.2rem;
+  }
+}
+@media (width <= 595px) {
+  .UserProfileContainer {
+    margin-left: 0.5rem;
+    padding: 0rem;
+  }
+}
+@media (width <= 395px) {
+  .UserInfo {
+    margin-right: 1.5rem;
   }
 }

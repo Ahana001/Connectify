@@ -34,21 +34,22 @@ export const editUserHandler = function (schema, request) {
         }
       );
     }
-    const { userData } = JSON.parse(request.requestBody);
-    if (userData && userData.username && userData.username !== user.username) {
+    const userData = JSON.parse(request.requestBody);
+    if (userData && userData.id !== user.id) {
       return new Response(
         404,
         {},
         {
-          errors: ["Username cannot be changed"],
+          errors: ["cannot be changed"],
         }
       );
     }
-
+    delete userData?.id;
     user = { ...user, ...userData, updatedAt: formatDate() };
-    this.db.users.update({ _id: user._id }, user);
-    return new Response(201, {}, { user });
+    this.db.users.update({ id: user.id }, user);
+    return new Response(201, {}, { user, users: this.db.users });
   } catch (error) {
+    console.log(`error${error}`);
     return new Response(
       500,
       {},
@@ -178,7 +179,7 @@ export const removePostFromBookmarkHandler = function (schema, request) {
 export const followUserHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
   const { followUserId } = request.params;
-  const followUser = schema.users.findBy({ _id: followUserId }).attrs;
+  const followUser = schema.users.findBy({ id: followUserId }).attrs;
   try {
     if (!user) {
       return new Response(
@@ -192,7 +193,7 @@ export const followUserHandler = function (schema, request) {
       );
     }
 
-    if (user._id === followUser._id) {
+    if (user.id === followUser.id) {
       return new Response(
         404,
         {},
@@ -203,7 +204,7 @@ export const followUserHandler = function (schema, request) {
     }
 
     const isFollowing = user.following.some(
-      (currUser) => currUser._id === followUser._id
+      (currUser) => currUser._id === followUser.id
     );
 
     if (isFollowing) {
@@ -219,17 +220,17 @@ export const followUserHandler = function (schema, request) {
       followers: [...followUser.followers, { ...user }],
     };
     this.db.users.update(
-      { _id: user._id },
+      { id: user.id },
       { ...updatedUser, updatedAt: formatDate() }
     );
     this.db.users.update(
-      { _id: followUser._id },
+      { id: followUser.id },
       { ...updatedFollowUser, updatedAt: formatDate() }
     );
     return new Response(
       200,
       {},
-      { user: updatedUser, followUser: updatedFollowUser }
+      { users: this.db.users, user: updatedUser, followUser: updatedFollowUser }
     );
   } catch (error) {
     return new Response(
@@ -250,7 +251,7 @@ export const followUserHandler = function (schema, request) {
 export const unfollowUserHandler = function (schema, request) {
   const user = requiresAuth.call(this, request);
   const { followUserId } = request.params;
-  const followUser = this.db.users.findBy({ _id: followUserId });
+  const followUser = this.db.users.findBy({ id: followUserId });
   try {
     if (!user) {
       return new Response(
@@ -264,7 +265,7 @@ export const unfollowUserHandler = function (schema, request) {
       );
     }
     const isFollowing = user.following.some(
-      (currUser) => currUser._id === followUser._id
+      (currUser) => currUser.id === followUser.id
     );
 
     if (!isFollowing) {
@@ -274,28 +275,24 @@ export const unfollowUserHandler = function (schema, request) {
     const updatedUser = {
       ...user,
       following: user.following.filter(
-        (currUser) => currUser._id !== followUser._id
+        (currUser) => currUser.id !== followUser.id
       ),
     };
     const updatedFollowUser = {
       ...followUser,
       followers: followUser.followers.filter(
-        (currUser) => currUser._id !== user._id
+        (currUser) => currUser.id !== user.id
       ),
     };
     this.db.users.update(
-      { _id: user._id },
+      { id: user.id },
       { ...updatedUser, updatedAt: formatDate() }
     );
     this.db.users.update(
-      { _id: followUser._id },
+      { id: followUser.id },
       { ...updatedFollowUser, updatedAt: formatDate() }
     );
-    return new Response(
-      200,
-      {},
-      { user: updatedUser, followUser: updatedFollowUser }
-    );
+    return new Response(200, {}, { users: this.db.users });
   } catch (error) {
     return new Response(
       500,
@@ -377,4 +374,13 @@ export const getUserHandler = function (schema, request) {
       }
     );
   }
+};
+
+/**
+ * This handler handles gets all users in the db.
+ * send GET Request at /api/users/suggestionList
+ * */
+
+export const getAllUserHandler = function () {
+  return new Response(200, {}, { users: this.db.users });
 };
