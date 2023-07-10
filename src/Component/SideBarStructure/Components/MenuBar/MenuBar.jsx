@@ -14,7 +14,6 @@ import {
   // BsPlusSquareFill,
   BsPlusSquare,
 } from "react-icons/bs";
-import { SlOptions } from "react-icons/sl";
 import { RiUser3Line, RiUser3Fill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useLocation } from "react-router-dom";
@@ -120,7 +119,6 @@ export function MenuBar() {
               <span>@{authUser.username}</span>
             </div>
           </div>
-          <SlOptions className="UserInfoOptionBarIcon" />
         </div>
       </div>
     </div>

@@ -77,7 +77,10 @@ export function ProfilePage() {
       <SideBarStructure>
         <div className="UserProfilePageContainer">
           <div className="UserInformationContainer">
-            <Avtar url={findUser.image} />
+            <div className="UserProfileUserAvtar">
+              {" "}
+              <Avtar url={findUser.image} />
+            </div>
             <div className="UserProfileDetails">
               <div className="UserNameAndEditButton">
                 <div className="UserNameContainer">

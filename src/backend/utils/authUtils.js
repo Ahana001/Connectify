@@ -26,3 +26,7 @@ export const before30MinDate = () => {
   const tomorrow = dayjs().subtract(30, "minutes");
   return tomorrow.format("YYYY-MM-DDTHH:mm:ssZ");
 };
+export const beforeOneYearDate = () => {
+  const tomorrow = dayjs().subtract(20, "day");
+  return tomorrow.format("YYYY-MM-DDTHH:mm:ssZ");
+};

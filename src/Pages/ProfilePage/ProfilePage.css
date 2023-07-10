@@ -12,6 +12,9 @@
   justify-content: center;
   padding-bottom: 3rem;
 }
+.UserProfileUserAvtar {
+  min-width: 12rem;
+}
 .UserNameAndEditButton {
   display: flex;
   gap: 2rem;
@@ -177,7 +180,10 @@
   .UserProfilePostListWrapper {
     width: auto;
   }
-  .UserInformationContainer .AvtarContainer {
+  .UserProfileDetails {
+    padding: 0.8rem;
+  }
+  .UserInformationContainer .UserProfileUserAvtar {
     display: none;
   }
 }
@@ -190,8 +196,9 @@
   .UserNameAndEditButton {
     flex-direction: column;
     align-items: flex-start;
-    padding: 0.4rem;
+    padding: 0.8rem;
   }
+
   .UserInformationContainer {
     padding: 1rem;
     justify-content: flex-start;
