@@ -2,8 +2,8 @@ import { useSelector } from "react-redux";
 import "./SuggestionList.css";
 
 import { useLocation } from "react-router-dom";
-import { Loader } from "../Loader/Loader";
 import { SuggestionCard } from "../SuggestionCard/SuggestionCard";
+import { SuggestionCardSkeleton } from "../SuggestionCardSkeleton/SuggestionCardSkeleton";
 
 export function SuggestionList() {
   const location = useLocation();
@@ -17,12 +17,12 @@ export function SuggestionList() {
   const getOnlyFirstSevenSuggestions = getSuggestionListData.slice(0, 7);
   return (
     <div className="SuggestionListContainer">
+      <div className="SuggestionListHeader">Suggested for you</div>
       {getSuggestionListStatus === "pending" ? (
-        <Loader />
+        <SuggestionCardSkeleton />
       ) : (
         <>
           <div className="SuggestionListContainer">
-            <div className="SuggestionListHeader">Suggested for you</div>
             <ul>
               {getOnlyFirstSevenSuggestions.map((user) => {
                 return (

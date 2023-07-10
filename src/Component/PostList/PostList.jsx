@@ -3,9 +3,9 @@ import "./PostList.css";
 import { useDispatch, useSelector } from "react-redux";
 
 import { PostCard } from "../PostCard/PostCard";
-import { Loader } from "../Loader/Loader";
 import { changeSorting } from "../../Store/postSlice";
 import { useLocation } from "react-router-dom";
+import { PostCardSkeleton } from "../PostCardSkeleton/PostCardSkeleton";
 
 export function PostList({ list }) {
   const dispatch = useDispatch();
@@ -54,7 +54,7 @@ export function PostList({ list }) {
         }}
       >
         {getAllPostStatus === "pending" ? (
-          <Loader />
+          <PostCardSkeleton />
         ) : list.length === 0 ? (
           <div className="NoPost">
             <img src="../asserts/camera.png" alt="No Post" />
