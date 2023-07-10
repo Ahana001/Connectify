@@ -57,7 +57,7 @@ export const posts = [
   },
   {
     _id: uuid(),
-    id: "POST4",
+    id: "POST5",
     picture_url:
       "https://res.cloudinary.com/dcu6sympq/image/upload/v1688963268/socially/hbibmqdn1lj1zwoycsek.webp",
     content:
@@ -79,7 +79,7 @@ export const posts = [
   },
   {
     _id: uuid(),
-    id: "POST5",
+    id: "POST7",
     picture_url:
       "https://res.cloudinary.com/dcu6sympq/image/upload/v1688964267/socially/ki2ykahpjxzc7ru2qjur.jpg",
     content:
@@ -90,7 +90,7 @@ export const posts = [
   },
   {
     _id: uuid(),
-    id: "POST7",
+    id: "POST8",
     picture_url:
       "https://res.cloudinary.com/dcu6sympq/image/upload/v1688963983/socially/wuzprzuj6uinud8htbcg.jpg",
     content:
@@ -101,7 +101,7 @@ export const posts = [
   },
   {
     _id: uuid(),
-    id: "POST8",
+    id: "POST9",
     picture_url:
       "https://res.cloudinary.com/dcu6sympq/image/upload/v1688964063/socially/kaumlb3zkbxa9fxqlngv.jpg",
     content:
@@ -112,7 +112,7 @@ export const posts = [
   },
   {
     _id: uuid(),
-    id: "POST9",
+    id: "POST10",
     picture_url:
       "https://res.cloudinary.com/dcu6sympq/image/upload/v1688964536/socially/ol74pcjaicjyerc4fbbw.jpg",
     content:
@@ -123,7 +123,7 @@ export const posts = [
   },
   {
     _id: uuid(),
-    id: "POST10",
+    id: "POST11",
     picture_url:
       "https://res.cloudinary.com/dcu6sympq/image/upload/v1688964702/socially/xryoob3ke436acywiouw.jpg",
     content:
@@ -134,7 +134,7 @@ export const posts = [
   },
   {
     _id: uuid(),
-    id: "POST11",
+    id: "POST12",
     picture_url:
       "https://res.cloudinary.com/dcu6sympq/image/upload/v1688965053/socially/dbr5vjdlid6m94archmy.webp",
     content:
