@@ -10,6 +10,7 @@ import { BookMarkPage } from "./Pages/BookMarkPage/BookMarkPage";
 import { LikedPostPage } from "./Pages/LikedPostPage/LikedPostPage";
 import { PrivateRoute } from "./Component/PrivateRoute/PrivateRoute";
 import { ProfilePage } from "./Pages/ProfilePage/ProfilePage";
+import { ScrollToTop } from "./Component/ScrollToTop/ScrollToTop";
 
 function App() {
   return (
@@ -51,12 +52,28 @@ function App() {
           path="/profile/:profileName"
           element={
             <PrivateRoute>
-              <ProfilePage />
+              <ScrollToTop>
+                <ProfilePage />
+              </ScrollToTop>
             </PrivateRoute>
           }
         />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignupPage />} />
+        <Route
+          path="/login"
+          element={
+            <ScrollToTop>
+              <LoginPage />
+            </ScrollToTop>
+          }
+        />
+        <Route
+          path="/signup"
+          element={
+            <ScrollToTop>
+              <SignupPage />
+            </ScrollToTop>
+          }
+        />
       </Routes>
       <ToastContainer />
     </div>

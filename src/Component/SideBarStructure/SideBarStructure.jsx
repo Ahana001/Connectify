@@ -14,6 +14,7 @@ import {
   getSuggestionList,
 } from "../../Store/authenticationSlice";
 import { BottomMenuBar } from "./Components/BottomMenuBar/BottomMenuBar";
+import { ScrollToTop } from "../ScrollToTop/ScrollToTop";
 
 export function SideBarStructure({ children }) {
   const dispatch = useDispatch();
@@ -68,17 +69,19 @@ export function SideBarStructure({ children }) {
       <div className="LeftMenubarContainer">
         <MenuBar />
       </div>
-      <div
-        className="PostListAndSuggetionListContainer"
-        style={{
-          gridTemplateColumns: location.pathname.includes("/profile")
-            ? "1fr"
-            : "",
-        }}
-      >
-        {children}
-        <SuggestionList></SuggestionList>
-      </div>
+      <ScrollToTop>
+        <div
+          className="PostListAndSuggetionListContainer"
+          style={{
+            gridTemplateColumns: location.pathname.includes("/profile")
+              ? "1fr"
+              : "",
+          }}
+        >
+          {children}
+          <SuggestionList></SuggestionList>
+        </div>
+      </ScrollToTop>
       <BottomMenuBar />
       <CreatePostModal />
       {postStatus === "pending" || followStatus === "pending" ? (
