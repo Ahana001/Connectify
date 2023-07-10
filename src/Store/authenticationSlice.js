@@ -243,7 +243,7 @@ const authenticationSlice = createSlice({
         user.id === userId
           ? {
               ...user,
-              followUserStatus: "idle",
+              followUserStatus: "fulfilled",
             }
           : user
       );
