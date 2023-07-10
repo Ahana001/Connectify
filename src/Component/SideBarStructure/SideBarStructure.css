@@ -77,11 +77,11 @@
     margin-left: 7rem;
   }
 }
-@media (width <= 395px) {
+@media (max-width: 430px) {
   .LeftMenubarContainer {
-    width: 5.5rem;
+    display: none;
   }
   .PostListAndSuggetionListContainer {
-    margin-left: 5.5rem;
+    margin-left: 0rem;
   }
 }

@@ -9,7 +9,6 @@ const displaySlice = createSlice({
       visibility: false,
     },
     isEditProfileBoxVisible: false,
-    logoutToggle: false,
   },
   reducers: {
     setToggleModel(state, action) {
@@ -17,9 +16,6 @@ const displaySlice = createSlice({
     },
     setEditBoxVisibility(state, action) {
       return { ...state, editBoxVisibility: action.payload };
-    },
-    setLogoutToggle(state, action) {
-      return { ...state, logoutToggle: action.payload };
     },
     setIsEditProfileBoxVisibility(state, action) {
       return { ...state, isEditProfileBoxVisible: action.payload };
@@ -30,7 +26,6 @@ const displaySlice = createSlice({
 export const {
   setToggleModel,
   setEditBoxVisibility,
-  setLogoutToggle,
   setIsEditProfileBoxVisibility,
 } = displaySlice.actions;
 export const displayReducer = displaySlice.reducer;

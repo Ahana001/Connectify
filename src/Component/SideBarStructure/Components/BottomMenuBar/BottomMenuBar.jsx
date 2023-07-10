@@ -1,5 +1,3 @@
-import "./MenuBar.css";
-
 import {
   AiFillHome,
   AiOutlineHome,
@@ -14,18 +12,18 @@ import {
   // BsPlusSquareFill,
   BsPlusSquare,
 } from "react-icons/bs";
-import { SlOptions } from "react-icons/sl";
 import { RiUser3Line, RiUser3Fill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useLocation } from "react-router-dom";
 import { setToggleModel } from "../../../../Store/displaySlice";
+import "./BottomMenuBar.css";
 
-export function MenuBar() {
-  const location = useLocation();
-  const dispatch = useDispatch();
+export function BottomMenuBar() {
   const { authUser } = useSelector((state) => state.authentication);
 
-  const menubarList = [
+  const location = useLocation();
+  const dispatch = useDispatch();
+  const menubarList1 = [
     {
       path: "/",
       label: "home",
@@ -38,6 +36,8 @@ export function MenuBar() {
       selectedIcon: <AiFillCompass />,
       icon: <AiOutlineCompass />,
     },
+  ];
+  const menubarList2 = [
     {
       path: "/bookmarks",
       label: "bookmark",
@@ -70,59 +70,49 @@ export function MenuBar() {
   }
 
   return (
-    <div className="LeftMenubarWrapper">
-      <ul className="MenuBarList">
-        {menubarList.map(({ label, selectedIcon, icon, path }) => {
+    <div className="BottomMenubarWrapper">
+      <ul className="BottomMenuBarList">
+        {menubarList1.map(({ label, selectedIcon, icon, path }) => {
           return (
             <li key={label}>
               <NavLink
-                className="MenuBarListItem"
+                className="BottomMenuBarListItem"
                 to={path}
                 style={getActiveStyle}
               >
-                <span className="MenuBarIcon">
+                <span className="BottomMenuBarIcon">
                   {location.pathname === path ? selectedIcon : icon}
                 </span>
-                <span className="MenuBarText">{label}</span>
               </NavLink>
             </li>
           );
         })}
         <li
-          className="MenuBarListItem"
+          className="BottomMenuBarListItem"
           onClick={() => {
             dispatch(setToggleModel(true));
           }}
         >
-          <span className="MenuBarIcon">
+          <span className="BottomMenuBarIcon">
             <BsPlusSquare />
           </span>
-          <span className="MenuBarText">create</span>
         </li>
+        {menubarList2.map(({ label, selectedIcon, icon, path }) => {
+          return (
+            <li key={label}>
+              <NavLink
+                className="BottomMenuBarListItem"
+                to={path}
+                style={getActiveStyle}
+              >
+                <span className="BottomMenuBarIcon">
+                  {location.pathname === path ? selectedIcon : icon}
+                </span>
+              </NavLink>
+            </li>
+          );
+        })}
       </ul>
-      <div className="UserProfileContainer">
-        <div className="UserInfo">
-          <div>
-            <div
-              className="UserAvtar"
-              style={{ minHeight: "4rem", minWidth: "4rem" }}
-            >
-              <div className="UserAvtarImageContainer">
-                <img
-                  src={authUser.image ?? "../asserts/user.png"}
-                  alt="avtar"
-                  style={{ minHeight: "3.8rem", minWidth: "3.8rem" }}
-                />
-              </div>
-            </div>
-            <div className="UserNameStack">
-              <span>{authUser.username}</span>
-              <span>@{authUser.username}</span>
-            </div>
-          </div>
-          <SlOptions className="UserInfoOptionBarIcon" />
-        </div>
-      </div>
     </div>
   );
 }

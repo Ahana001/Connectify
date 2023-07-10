@@ -28,9 +28,12 @@ export function PostCard({ post }) {
     (state) => state.authentication
   );
   const currentDate = new Date();
-  const findPostAuthor = getAllUsersData.find(
+  let findPostAuthor = getAllUsersData.find(
     (user) => user.username === post.author_username
   );
+  if (findPostAuthor?.id === authUser?.id) {
+    findPostAuthor = authUser;
+  }
   function getHumanizeTimeForOlderPost(date) {
     const pastDate = new Date(date);
     const timeDifference = currentDate - pastDate;

@@ -15,12 +15,11 @@ import {
   unfollowUser,
 } from "../../Store/authenticationSlice";
 import { getAllPost, setPostData } from "../../Store/postSlice";
-import {
-  setEditBoxVisibility,
-  setLogoutToggle,
-} from "../../Store/displaySlice";
+import { setEditBoxVisibility } from "../../Store/displaySlice";
 import { setIsEditProfileBoxVisibility } from "../../Store/displaySlice";
 import { EditProfileModal } from "../../Component/EditProfileModal/EditProfileModal";
+import { logoutHandler } from "../../Store/authenticationSlice";
+import { AiOutlineLogout } from "react-icons/ai";
 
 export function ProfilePage() {
   const { profileName } = useParams();
@@ -30,9 +29,10 @@ export function ProfilePage() {
   );
   const { getAllPostData } = useSelector((state) => state.post);
 
-  const findUser = getAllUsersData.find(
-    (user) => user.username === profileName
-  );
+  let findUser = getAllUsersData.find((user) => user.username === profileName);
+  if (findUser?.id === authUser?.id) {
+    findUser = authUser;
+  }
   const isFollowingUser = findUser?.followers.find(
     (followersUser) => followersUser?.id === authUser?.id
   );
@@ -66,7 +66,6 @@ export function ProfilePage() {
           picture: null,
         })
       );
-      dispatch(setLogoutToggle(false));
     }
   }, [authToken, dispatch]);
 
@@ -127,22 +126,31 @@ export function ProfilePage() {
                   </button>
                 ) : null}
                 {authUser.username === profileName && (
-                  <button
-                    className="EditUserProfileButton"
-                    onClick={() => {
-                      dispatch(
-                        setProfileData({
-                          id: authUser.id,
-                          bio: authUser.bio,
-                          profile_link: authUser.profile_link,
-                          image: authUser.image,
-                        })
-                      );
-                      dispatch(setIsEditProfileBoxVisibility(true));
-                    }}
-                  >
-                    Edit Profile
-                  </button>
+                  <div className="LogoutAndEditButtonContainer">
+                    <button
+                      className="LogOutContainer"
+                      onClick={() => dispatch(logoutHandler())}
+                    >
+                      <AiOutlineLogout className="LogOutIcon" />
+                      <span>Log Out</span>
+                    </button>
+                    <button
+                      className="EditUserProfileButton"
+                      onClick={() => {
+                        dispatch(
+                          setProfileData({
+                            id: authUser.id,
+                            bio: authUser.bio,
+                            profile_link: authUser.profile_link,
+                            image: authUser.image,
+                          })
+                        );
+                        dispatch(setIsEditProfileBoxVisibility(true));
+                      }}
+                    >
+                      Edit Profile
+                    </button>
+                  </div>
                 )}
               </div>
             </div>

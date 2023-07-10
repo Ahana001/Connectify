@@ -1,0 +1,48 @@
+.BottomMenubarWrapper {
+  display: flex;
+  position: fixed;
+  bottom: 0rem;
+  left: 0rem;
+  right: 0rem;
+  border-top: 0.1rem solid var(--line-color);
+  background-color: white;
+  display: none;
+}
+.BottomMenuBarList {
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.6rem;
+  list-style: none;
+  margin-block-start: 0rem;
+  margin-block-end: 0rem;
+  padding-inline-start: 0rem;
+  margin: 0rem 0.8rem;
+}
+.BottomMenuBarList li {
+  border-radius: 1rem;
+}
+.BottomMenuBarList .BottomMenuBarListItem {
+  cursor: pointer;
+  height: 5rem;
+  display: flex;
+  align-items: center;
+  padding-left: 1rem;
+  gap: 1rem;
+  text-decoration: none;
+  color: black;
+  text-transform: capitalize;
+  border-radius: 1rem;
+}
+.BottomMenuBarIcon {
+  font-size: 2.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+@media (max-width: 430px) {
+  .BottomMenubarWrapper {
+    display: flex;
+  }
+}

@@ -4,10 +4,7 @@ import { MenuBar } from "./Components/MenuBar/MenuBar";
 import { SuggestionList } from "../SuggestionList/SuggestionList";
 import { CreatePostModal } from "../CreatePostModal/CreatePostModal";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setEditBoxVisibility,
-  setLogoutToggle,
-} from "../../Store/displaySlice";
+import { setEditBoxVisibility } from "../../Store/displaySlice";
 import { getAllPost, setPostData } from "../../Store/postSlice";
 import { TransparentLoader } from "../TransparentLoader/TransparentLoader";
 import { useEffect, useRef } from "react";
@@ -15,15 +12,14 @@ import { useLocation } from "react-router-dom";
 import {
   getAllUsers,
   getSuggestionList,
-  logoutHandler,
 } from "../../Store/authenticationSlice";
-import { AiOutlineLogout } from "react-icons/ai";
+import { BottomMenuBar } from "./Components/BottomMenuBar/BottomMenuBar";
+
 export function SideBarStructure({ children }) {
   const dispatch = useDispatch();
   const { authToken, followStatus } = useSelector(
     (state) => state.authentication
   );
-  const { logoutToggle } = useSelector((state) => state.display);
   const { postStatus } = useSelector((state) => state.post);
   const location = useLocation();
   const isFirstRun = useRef(true);
@@ -52,7 +48,6 @@ export function SideBarStructure({ children }) {
           picture: null,
         })
       );
-      dispatch(setLogoutToggle(false));
     }
   }, [authToken, dispatch]);
 
@@ -74,26 +69,10 @@ export function SideBarStructure({ children }) {
             picture: null,
           })
         );
-        dispatch(setLogoutToggle(false));
       }}
     >
       <div className="LeftMenubarContainer">
         <MenuBar />
-      </div>
-      <div
-        className="LogOutContainer"
-        style={{ display: logoutToggle ? "flex" : "none" }}
-      >
-        <ul>
-          <li
-            onClick={async (e) => {
-              e.stopPropagation();
-              dispatch(logoutHandler());
-            }}
-          >
-            <AiOutlineLogout className="LogOutIcon" /> <span>Log Out</span>
-          </li>
-        </ul>
       </div>
       <div
         className="PostListAndSuggetionListContainer"
@@ -106,6 +85,7 @@ export function SideBarStructure({ children }) {
         {children}
         <SuggestionList></SuggestionList>
       </div>
+      <BottomMenuBar />
       <CreatePostModal />
       {postStatus === "pending" || followStatus === "pending" ? (
         <TransparentLoader />
