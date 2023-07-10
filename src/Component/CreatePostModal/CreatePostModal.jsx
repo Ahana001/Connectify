@@ -3,14 +3,19 @@ import "./CreatePostModal.css";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RxCross1 } from "react-icons/rx";
-import { BsEmojiSmile } from "react-icons/bs";
 
-import { setToggleModel } from "../../Store/displaySlice";
+import {
+  setIsEmojiSelectorVisible,
+  setToggleModel,
+} from "../../Store/displaySlice";
 import { AvtarWithBorder } from "../AvtarWithBorder/AvtarWithBorder";
 import { addPost, editPost, setPostData } from "../../Store/postSlice";
-
+import EmojiPicker from "emoji-picker-react";
+import { BsEmojiSmile } from "react-icons/bs";
 export function CreatePostModal() {
-  const { toggleModel } = useSelector((state) => state.display);
+  const { toggleModel, isEmojiSelectorVisible } = useSelector(
+    (state) => state.display
+  );
   const { authUser, authToken } = useSelector((state) => state.authentication);
   const { postData } = useSelector((state) => state.post);
   const [postInputForm, setPostInputForm] = useState({
@@ -19,7 +24,9 @@ export function CreatePostModal() {
     picture: postData.picture,
     displayPicture: postData.displayPicture,
   });
-
+  useEffect(() => {
+    dispatch(setIsEmojiSelectorVisible(false));
+  }, []);
   useEffect(() => {
     setPostInputForm(postData);
   }, [postData]);
@@ -42,19 +49,26 @@ export function CreatePostModal() {
       picture: file,
     });
   };
-
+  const handleEmojiSelect = (emoji) => {
+    setPostInputForm(() => ({
+      ...postInputForm,
+      content: postInputForm.content + emoji.emoji,
+    }));
+  };
   return (
     <div
       className="ModalPortal"
       style={{ display: toggleModel ? "flex" : "none" }}
       onClick={() => {
         dispatch(setToggleModel(false));
+        dispatch(setIsEmojiSelectorVisible(false));
       }}
     >
       <div
         className="ModalPortalCloseButton"
         onClick={() => {
           dispatch(setToggleModel(false));
+          dispatch(setIsEmojiSelectorVisible(false));
         }}
       >
         <RxCross1 />
@@ -127,8 +141,31 @@ export function CreatePostModal() {
                   />
                   <div className="ModalPortalContentFooter">
                     <div className="FooterActionButton">
-                      <div className="EmojiSelector">
+                      <div
+                        className="EmojiSelector"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          dispatch(
+                            setIsEmojiSelectorVisible(!isEmojiSelectorVisible)
+                          );
+                        }}
+                      >
                         <BsEmojiSmile />
+                      </div>
+                      <div
+                        className="EmojiSelectorContainer"
+                        onClick={(e) => e.stopPropagation()}
+                        style={{
+                          display: isEmojiSelectorVisible ? "" : "none",
+                        }}
+                      >
+                        <EmojiPicker
+                          searchDisabled
+                          skinTonesDisabled
+                          height={400}
+                          width={300}
+                          onEmojiClick={handleEmojiSelect}
+                        />
                       </div>
                     </div>
                     <button

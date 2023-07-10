@@ -9,6 +9,7 @@ const displaySlice = createSlice({
       visibility: false,
     },
     isEditProfileBoxVisible: false,
+    isEmojiSelectorVisible: false,
   },
   reducers: {
     setToggleModel(state, action) {
@@ -20,6 +21,9 @@ const displaySlice = createSlice({
     setIsEditProfileBoxVisibility(state, action) {
       return { ...state, isEditProfileBoxVisible: action.payload };
     },
+    setIsEmojiSelectorVisible(state, action) {
+      return { ...state, isEmojiSelectorVisible: action.payload };
+    },
   },
 });
 
@@ -27,5 +31,6 @@ export const {
   setToggleModel,
   setEditBoxVisibility,
   setIsEditProfileBoxVisibility,
+  setIsEmojiSelectorVisible,
 } = displaySlice.actions;
 export const displayReducer = displaySlice.reducer;

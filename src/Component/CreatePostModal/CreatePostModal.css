@@ -64,7 +64,7 @@
 .ModalPortalContentWrapper {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   gap: 2rem;
   width: 80rem;
   padding-bottom: 2rem;
@@ -148,6 +148,7 @@
 }
 .FooterActionButton {
   display: flex;
+  padding: relative;
 }
 .EmojiSelector {
   font-size: 1.6rem;
@@ -165,6 +166,10 @@
   outline: none;
   border: none;
 }
+.EmojiSelectorContainer {
+  position: absolute;
+  bottom: -2rem;
+}
 .PostButton:disabled {
   background-color: rgb(188, 185, 185);
   cursor: not-allowed;
@@ -177,9 +182,19 @@
 .ModalPortalContentBodyText textarea::-webkit-scrollbar {
   display: none;
 }
+@media (max-width: 1280px) {
+  .EmojiSelectorContainer {
+    bottom: -8rem;
+  }
+}
+
 @media (max-width: 925px) {
   .ModalPortalContentWrapper {
     width: 60rem;
+  }
+  .EmojiSelectorContainer,
+  .EmojiSelector {
+    display: none;
   }
 }
 @media (max-width: 798px) {

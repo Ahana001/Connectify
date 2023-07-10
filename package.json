@@ -7,6 +7,7 @@
     "axios": "^1.4.0",
     "cloudinary-react": "^1.8.1",
     "dayjs": "^1.11.9",
+    "emoji-picker-react": "^4.4.9",
     "fs": "^0.0.1-security",
     "jwt-decode": "^3.1.2",
     "jwt-encode": "^1.0.1",
