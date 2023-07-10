@@ -143,6 +143,7 @@ export function CreatePostModal() {
                     <div className="FooterActionButton">
                       <div
                         className="EmojiSelector"
+                        style={{ display: "none" }}
                         onClick={(e) => {
                           e.stopPropagation();
                           dispatch(
@@ -156,7 +157,7 @@ export function CreatePostModal() {
                         className="EmojiSelectorContainer"
                         onClick={(e) => e.stopPropagation()}
                         style={{
-                          display: isEmojiSelectorVisible ? "" : "none",
+                          display: "none",
                         }}
                       >
                         <EmojiPicker
