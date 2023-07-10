@@ -81,7 +81,7 @@ export const createPostHandler = function (schema, request) {
     const totalPost = this.db.posts.length;
     const post = {
       _id: uuid(),
-      id: `POST${totalPost + 1}`,
+      id: `POST${totalPost + 100}`,
       ...postData,
       like_count: 0,
       liked_by: [],
