@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setEditBoxVisibility } from "../../Store/displaySlice";
 import { getAllPost, setPostData } from "../../Store/postSlice";
 import { TransparentLoader } from "../TransparentLoader/TransparentLoader";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import {
   getAllUsers,
@@ -22,14 +22,8 @@ export function SideBarStructure({ children }) {
   );
   const { postStatus } = useSelector((state) => state.post);
   const location = useLocation();
-  const isFirstRun = useRef(true);
 
   useEffect(() => {
-    if (isFirstRun.current) {
-      isFirstRun.current = false;
-      return;
-    }
-
     if (authToken) {
       dispatch(getAllUsers());
       dispatch(getAllPost());
